@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+    --color-parchment:    #c9b882;
+    --color-parchment-lt: #e8d9b0;
+    --color-parchment-dk: #8a7550;
+
+    --color-ink:          #1e1a10;
+    --color-ink-soft:     #3b3320;
+
+    --color-gold:         #c9922a;
+    --color-gold-lt:      #f0c060;
+
+    --color-moss:         #4a5c30;
+    --color-moss-lt:      #6b7c48;
+
+    --color-stone:        #2c2c24;
+    --color-stone-lt:     #3e3d30;
+}
+
+.download-btn {
+    clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0% calc(100% - 8px),0% 8px);
+}
+
+.header-span {
+    color:var(--parchment-lt);
+}

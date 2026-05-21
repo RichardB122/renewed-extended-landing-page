@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOTR: Renewed Extended — Minecraft Mod</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: var(--stone);
+      color: var(--parchment-lt);
+      font-family: 'EB Garamond', Georgia, serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: .4;
+    }
+
+    /* ── Display headings ── */
+    .font-display   { font-family: 'Cinzel Decorative', serif; }
+    .font-heading   { font-family: 'Cinzel', serif; }
+
+    /* ── Gold rule ── */
+    .gold-rule {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold-lt) 50%, var(--gold) 70%, transparent 100%);
+    }
+
+    /* ── Hero ── */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,146,42,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(74,92,48,.25) 0%, transparent 60%),
+        linear-gradient(180deg, #1a1810 0%, #2c2c24 40%, #232319 100%);
+    }
+
+    /* ── Ring glow ── */
+    .ring-glow {
+      filter: drop-shadow(0 0 20px rgba(201,146,42,.7)) drop-shadow(0 0 50px rgba(201,146,42,.35));
+    }
+
+    /* ── Scroll card ── */
+    .scroll-card {
+      background:
+        linear-gradient(160deg, rgba(201,184,130,.12) 0%, rgba(201,184,130,.06) 100%);
+      border: 1px solid rgba(201,184,130,.22);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ── Screenshot placeholder ── */
+    .screenshot-slot {
+      background:
+        linear-gradient(135deg, rgba(201,184,130,.07) 0%, rgba(74,92,48,.12) 100%);
+      border: 2px dashed rgba(201,184,130,.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .screenshot-slot::after {
+      content: 'Screenshot';
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: .75rem;
+      letter-spacing: .15em;
+      color: rgba(201,184,130,.35);
+      text-transform: uppercase;
+    }
+
+    /* ── Nav link ── */
+    .nav-link {
+      font-family: 'Cinzel', serif;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      color: rgba(201,184,130,.75);
+      text-transform: uppercase;
+      transition: color .2s;
+      text-decoration: none;
+    }
+    .nav-link:hover { color: var(--gold-lt); }
+
+    /* ── CTA button ── */
+    .btn-primary {
+      font-family: 'Cinzel', serif;
+      font-size: .85rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .85rem 2.2rem;
+      background: linear-gradient(135deg, #b07e20 0%, #d4a030 50%, #c0902a 100%);
+      color: #1a1408;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px);
+      transition: filter .2s, transform .15s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { filter: brightness(1.15); transform: translateY(-2px); }
+
+    .btn-secondary {
+      font-family: 'Cinzel', serif;
+      font-size: .85rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .8rem 2.2rem;
+      background: transparent;
+      color: var(--parchment);
+      border: 1px solid rgba(201,184,130,.45);
+      cursor: pointer;
+      clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px);
+      transition: border-color .2s, color .2s, transform .15s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold-lt); transform: translateY(-2px); }
+
+    /* ── Feature icon ring ── */
+    .icon-ring {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,146,42,.4);
+      background: radial-gradient(circle, rgba(201,146,42,.15) 0%, transparent 70%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Faction badge ── */
+    .faction-badge {
+      background: linear-gradient(135deg, rgba(201,184,130,.1) 0%, rgba(201,184,130,.04) 100%);
+      border: 1px solid rgba(201,184,130,.2);
+      transition: border-color .25s, background .25s, transform .2s;
+      cursor: default;
+    }
+    .faction-badge:hover {
+      border-color: rgba(201,146,42,.55);
+      background: linear-gradient(135deg, rgba(201,146,42,.15) 0%, rgba(201,146,42,.05) 100%);
+      transform: translateY(-3px);
+    }
+
+    /* ── Divider ornament ── */
+    .ornament { color: var(--gold); opacity: .6; font-size: 1.2rem; letter-spacing: .3em; }
+
+    /* ── Section headings ── */
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: .7rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Fade-in on load ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp .9s cubic-bezier(.22,.61,.36,1) both; }
+    .delay-1 { animation-delay: .15s; }
+    .delay-2 { animation-delay: .3s; }
+    .delay-3 { animation-delay: .45s; }
+    .delay-4 { animation-delay: .6s; }
+
+    /* ── Nav backdrop ── */
+    nav {
+      background: rgba(26,24,16,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,184,130,.12);
+    }
+
+    /* ── Stats ── */
+    .stat-number {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2rem;
+      color: var(--gold-lt);
+      line-height: 1;
+    }
+
+    /* ── Version pill ── */
+    .version-pill {
+      background: rgba(201,146,42,.2);
+      border: 1px solid rgba(201,146,42,.4);
+      font-family: 'Cinzel', serif;
+      font-size: .7rem;
+      letter-spacing: .15em;
+      color: var(--gold-lt);
+      padding: .25rem .8rem;
+      border-radius: 999px;
+    }
+
+    /* ── Large screenshot feature ── */
+    .screenshot-main {
+      background: linear-gradient(135deg, rgba(201,184,130,.07) 0%, rgba(74,92,48,.14) 100%);
+      border: 2px dashed rgba(201,184,130,.22);
+      position: relative; overflow: hidden;
+    }
+    .screenshot-main::after {
+      content: 'Featured Screenshot';
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-size: .85rem;
+      letter-spacing: .2em;
+      color: rgba(201,184,130,.3);
+      text-transform: uppercase;
+    }
+
+    /* ── Scroll indicator ── */
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(6px); }
+    }
+    .scroll-indicator { animation: bounce 2s ease-in-out infinite; }
+
+    /* ── Footer ── */
+    footer {
+      background: linear-gradient(0deg, rgba(10,10,8,.9) 0%, transparent 100%);
+      border-top: 1px solid rgba(201,184,130,.12);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║          NAV                 ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<nav class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-full border border-yellow-500/60 flex items-center justify-center text-yellow-400 text-xs ring-glow">⚫</div>
+      <span class="font-heading text-sm tracking-widest text-parchment/90" style="color:var(--parchment-lt)">LOTR: Extended</span>
+    </div>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#features"  class="nav-link">Features</a>
+      <a href="#factions"  class="nav-link">Factions</a>
+      <a href="#gallery"   class="nav-link">Gallery</a>
+      <a href="#download"  class="nav-link">Download</a>
+    </div>
+    <a href="#download" class="btn-primary text-xs py-2 px-5" style="clip-path:polygon(8px 0%,calc(100% - 8px) 0%,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0% calc(100% - 8px),0% 8px)">
+      Download
+    </a>
+  </div>
+</nav>
+
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║          HERO                ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<section class="hero-bg min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 relative">
+
+  <!-- Background decorative ring glow -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"
+       style="background: radial-gradient(circle, rgba(201,146,42,.08) 0%, transparent 65%);"></div>
+
+  <div class="text-center max-w-4xl mx-auto relative z-10">
+
+    <!-- Ring icon -->
+    <div class="fade-up mb-8 flex justify-center">
+      <div class="w-20 h-20 rounded-full border-2 flex items-center justify-center text-4xl ring-glow"
+           style="border-color:var(--gold); background: radial-gradient(circle, rgba(201,146,42,.2) 0%, transparent 70%);">
+        💍
+      </div>
+    </div>
+
+    <p class="section-eyebrow fade-up delay-1 mb-4">Minecraft Forge 1.16.5 · LOTR Renewed Addon</p>
+
+    <h1 class="font-display fade-up delay-1 mb-6 leading-tight"
+        style="font-size: clamp(2.4rem, 6vw, 4.2rem); color: var(--parchment-lt);">
+      Renewed<br/>
+      <span style="color:var(--gold-lt)">Extended</span>
+    </h1>
+
+    <hr class="gold-rule fade-up delay-2 mb-6 max-w-xs mx-auto">
+
+    <p class="fade-up delay-2 mb-10 text-lg leading-relaxed max-w-2xl mx-auto"
+       style="color: rgba(232,217,176,.75); font-style: italic;">
+      A community-crafted expansion to Mevans' Lord of the Rings Renewed mod —
+      bringing new factions, structures, traders, and lore to Middle-earth.
+    </p>
+
+    <div class="fade-up delay-3 flex flex-wrap items-center justify-center gap-4 mb-12">
+      <a href="#download" class="btn-primary">Download v1.0.2</a>
+      <a href="#features" class="btn-secondary">Explore Features</a>
+    </div>
+
+    <div class="fade-up delay-4 flex flex-wrap justify-center gap-8">
+      <div class="text-center">
+        <div class="stat-number">6</div>
+        <div class="font-heading text-xs tracking-widest mt-1" style="color:rgba(201,184,130,.55)">FACTIONS</div>
+      </div>
+      <div style="width:1px;background:rgba(201,184,130,.2)"></div>
+      <div class="text-center">
+        <div class="stat-number">5</div>
+        <div class="font-heading text-xs tracking-widest mt-1" style="color:rgba(201,184,130,.55)">WANDERING TRADERS</div>
+      </div>
+      <div style="width:1px;background:rgba(201,184,130,.2)"></div>
+      <div class="text-center">
+        <div class="stat-number">4</div>
+        <div class="font-heading text-xs tracking-widest mt-1" style="color:rgba(201,184,130,.55)">NEW TREES</div>
+      </div>
+      <div style="width:1px;background:rgba(201,184,130,.2)"></div>
+      <div class="text-center">
+        <div class="stat-number">∞</div>
+        <div class="font-heading text-xs tracking-widest mt-1" style="color:rgba(201,184,130,.55)">ADVENTURE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div class="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 opacity-40 text-sm"
+       style="color:var(--parchment)">▼</div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║     FEATURED SCREENSHOT      ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<section class="py-20 px-6 max-w-7xl mx-auto" id="gallery">
+  <div class="text-center mb-10">
+    <p class="section-eyebrow mb-3">Gallery</p>
+    <h2 class="font-display text-3xl mb-4" style="color:var(--parchment-lt)">Middle-earth Awaits</h2>
+    <hr class="gold-rule max-w-sm mx-auto">
+  </div>
+
+  <!-- Large hero screenshot -->
+  <div class="screenshot-main rounded-sm mb-4" style="height: 420px;"></div>
+
+  <!-- Grid of smaller screenshots -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div class="screenshot-slot rounded-sm" style="height:160px;"></div>
+    <div class="screenshot-slot rounded-sm" style="height:160px;"></div>
+    <div class="screenshot-slot rounded-sm" style="height:160px;"></div>
+    <div class="screenshot-slot rounded-sm" style="height:160px;"></div>
+  </div>
+
+  <p class="text-center mt-4 font-heading text-xs tracking-widest"
+     style="color:rgba(201,184,130,.35)">— Screenshots coming soon · Drop images here —</p>
+</section>
+
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║         FEATURES             ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<section id="features" class="py-24 px-6" style="background: linear-gradient(180deg, var(--stone) 0%, #1e1d14 100%);">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-16">
+      <p class="section-eyebrow mb-3">What's Inside</p>
+      <h2 class="font-display text-3xl mb-4" style="color:var(--parchment-lt)">Current Features</h2>
+      <hr class="gold-rule max-w-sm mx-auto mb-6">
+      <p class="max-w-xl mx-auto text-base" style="color:rgba(232,217,176,.65); font-style:italic;">
+        The mod is in active development. Every update expands the world of Middle-earth.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- Feature card -->
+      <div class="scroll-card rounded-sm p-6 flex gap-4 items-start">
+        <div class="icon-ring">🏰</div>
+        <div>
+          <h3 class="font-heading text-base mb-2" style="color:var(--parchment-lt)">Factions & Structures</h3>
+          <p class="text-sm leading-relaxed" style="color:rgba(232,217,176,.65)">
+            All 6 factions have naturally generating structures, including many brand-new ones not seen in the base mod.
+          </p>
+        </div>
+      </div>
+
+      <div class="scroll-card rounded-sm p-6 flex gap-4 items-start">
+        <div class="icon-ring">🧙</div>
+        <div>
+          <h3 class="font-heading text-base mb-2" style="color:var(--parchment-lt)">NPC Hiring</h3>
+          <p class="text-sm leading-relaxed" style="color:rgba(232,217,176,.65)">
+            Hire NPCs from Bree, Blue Mountains, Gundabad, Rangers, and High Elves to aid your journey.
+          </p>
+        </div>
+      </div>
+
+      <div class="scroll-card rounded-sm p-6 flex gap-4 items-start">
+        <div class="icon-ring">⚖️</div>
+        <div>
+          <h3 class="font-heading text-base mb-2" style="color:var(--parchment-lt)">Full Trade System</h3>
+          <p class="text-sm leading-relaxed" style="color:rgba(232,217,176,.65)">
+            The entire trade system has been ported and is fully functional across all faction traders.
+          </p>
+        </div>
+      </div>
+
+      <div class="scroll-card rounded-sm p-6 flex gap-4 items-start">
+        <div class="icon-ring">🧭</div>
+        <div>
+          <h3 class="font-heading text-base mb-2" style="color:var(--parchment-lt)">Wandering Traders</h3>
+          <p class="text-sm leading-relaxed" style="color:rgba(232,217,176,.65)">
+            5 wandering traders roam the world: Elves, Dwarves, Oddment Collectors, and a new Bree-land Merchant.
+          </p>
+        </div>
+      </div>
+
+      <div class="scroll-card rounded-sm p-6 flex gap-4 items-start">
+        <div class="icon-ring">🛡️</div>
+        <div>
+          <h3 class="font-heading text-base mb-2" style="color:var(--parchment-lt)">Banner Protection</h3>
+          <p class="text-sm leading-relaxed" style="color:rgba(232,217,176,.65)">
+            Full banner protection ported and ready — especially useful for multiplayer servers.
+          </p>
+        </div>
+      </div>
+
+      <div class="scroll-card rounded-sm p-6 flex gap-4 items-start">
+        <div class="icon-ring">🌳</div>
+        <div>
+          <h3 class="font-heading text-base mb-2" style="color:var(--parchment-lt)">New Flora & Items</h3>
+          <p class="text-sm leading-relaxed" style="color:rgba(232,217,176,.65)">
+            4 new trees (Chestnut, Willow, Banana, Plum), plus most Legacy blocks and items ported over.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mid-section secondary screenshot row -->
+    <div class="mt-14 grid md:grid-cols-3 gap-4">
+      <div class="screenshot-slot rounded-sm col-span-1 md:col-span-2" style="height:220px;"></div>
+      <div class="screenshot-slot rounded-sm" style="height:220px;"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║         FACTIONS             ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<section id="factions" class="py-24 px-6"
+         style="background: linear-gradient(180deg, #1e1d14 0%, #252318 100%);">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-14">
+      <p class="section-eyebrow mb-3">Peoples of Middle-earth</p>
+      <h2 class="font-display text-3xl mb-4" style="color:var(--parchment-lt)">The Six Factions</h2>
+      <hr class="gold-rule max-w-sm mx-auto">
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+      <div class="faction-badge rounded-sm p-6 text-center">
+        <div class="text-3xl mb-3">🍃</div>
+        <h3 class="font-heading text-sm tracking-wider mb-1" style="color:var(--parchment-lt)">Hobbits</h3>
+        <p class="text-xs" style="color:rgba(232,217,176,.5)">The Shire</p>
+      </div>
+
+      <div class="faction-badge rounded-sm p-6 text-center">
+        <div class="text-3xl mb-3">🗡️</div>
+        <h3 class="font-heading text-sm tracking-wider mb-1" style="color:var(--parchment-lt)">Rangers</h3>
+        <p class="text-xs" style="color:rgba(232,217,176,.5)">Eriador's Guardians</p>
+      </div>
+
+      <div class="faction-badge rounded-sm p-6 text-center">
+        <div class="text-3xl mb-3">💀</div>
+        <h3 class="font-heading text-sm tracking-wider mb-1" style="color:var(--parchment-lt)">Gundabad Orcs</h3>
+        <p class="text-xs" style="color:rgba(232,217,176,.5)">Mount Gundabad</p>
+      </div>
+
+      <div class="faction-badge rounded-sm p-6 text-center">
+        <div class="text-3xl mb-3">🏘️</div>
+        <h3 class="font-heading text-sm tracking-wider mb-1" style="color:var(--parchment-lt)">Bree</h3>
+        <p class="text-xs" style="color:rgba(232,217,176,.5)">The Crossroads Town</p>
+      </div>
+
+      <div class="faction-badge rounded-sm p-6 text-center">
+        <div class="text-3xl mb-3">⛏️</div>
+        <h3 class="font-heading text-sm tracking-wider mb-1" style="color:var(--parchment-lt)">Blue Mountains</h3>
+        <p class="text-xs" style="color:rgba(232,217,176,.5)">Ered Luin Dwarves</p>
+      </div>
+
+      <div class="faction-badge rounded-sm p-6 text-center">
+        <div class="text-3xl mb-3">✨</div>
+        <h3 class="font-heading text-sm tracking-wider mb-1" style="color:var(--parchment-lt)">High Elves</h3>
+        <p class="text-xs" style="color:rgba(232,217,176,.5)">Rivendell & Beyond</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║         DOWNLOAD             ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<section id="download" class="py-28 px-6 relative overflow-hidden"
+         style="background: linear-gradient(160deg, #1a1810 0%, #22210e 60%, #1a1810 100%);">
+
+  <!-- Glow backdrop -->
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <div class="w-[600px] h-[400px] rounded-full"
+         style="background: radial-gradient(ellipse, rgba(201,146,42,.1) 0%, transparent 65%);"></div>
+  </div>
+
+  <div class="max-w-3xl mx-auto text-center relative z-10">
+    <p class="section-eyebrow mb-4">Begin Your Quest</p>
+    <h2 class="font-display text-4xl mb-4" style="color:var(--parchment-lt)">Download the Mod</h2>
+    <hr class="gold-rule max-w-xs mx-auto mb-6">
+
+    <div class="scroll-card rounded-sm p-10 mb-8">
+      <div class="version-pill inline-block mb-6">Latest Release</div>
+      <div class="font-display text-5xl mb-2" style="color:var(--gold-lt)">v1.0.2</div>
+      <p class="font-heading text-xs tracking-widest mb-6" style="color:rgba(201,184,130,.5)">PUBLISHED FEBRUARY 7TH, 2026</p>
+      <p class="text-sm mb-8 leading-relaxed" style="color:rgba(232,217,176,.65); font-style:italic;">
+        Requires Minecraft Forge 1.16.5 and Mevans' LOTR Renewed mod.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="#" class="btn-primary">⬇ CurseForge</a>
+        <a href="#" class="btn-secondary">Modrinth</a>
+        <a href="#" class="btn-secondary">GitHub</a>
+      </div>
+    </div>
+
+    <p class="text-xs tracking-widest font-heading" style="color:rgba(201,184,130,.35)">
+      · ACTIVELY DEVELOPED BY THE COMMUNITY ·
+    </p>
+  </div>
+</section>
+
+
+<!-- ╔══════════════════════════════╗ -->
+<!-- ║         FOOTER               ║ -->
+<!-- ╚══════════════════════════════╝ -->
+<footer class="py-12 px-6">
+  <div class="max-w-6xl mx-auto">
+    <hr class="gold-rule mb-10">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 rounded-full border flex items-center justify-center text-xs"
+             style="border-color:rgba(201,146,42,.4); color:var(--gold)">⚫</div>
+        <span class="font-heading text-xs tracking-widest" style="color:rgba(201,184,130,.5)">LOTR: RENEWED EXTENDED</span>
+      </div>
+
+      <div class="flex gap-6">
+        <a href="#" class="nav-link text-xs">Wiki</a>
+        <a href="#" class="nav-link text-xs">Discord</a>
+        <a href="#" class="nav-link text-xs">GitHub</a>
+        <a href="#" class="nav-link text-xs">Changelog</a>
+      </div>
+
+      <p class="font-heading text-xs" style="color:rgba(201,184,130,.3)">
+        Not affiliated with Tolkien Estate or Mojang
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- Smooth scroll -->
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+
+</body>
+</html>
