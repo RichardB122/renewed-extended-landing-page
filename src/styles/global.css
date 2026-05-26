@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+}
+
 @theme {
     --color-parchment:    #c9b882;
     --color-parchment-lt: #e8d9b0;
@@ -45,11 +54,6 @@
 
 .radial-glow {
     background: radial-gradient(circle, rgba(201,146,42,.08) 0%, transparent 65%);
-}
-
-.stat-spacer {
-    width:1px;
-    background:rgba(201,184,130,.2);
 }
 
 .stat-title {

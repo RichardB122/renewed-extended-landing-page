@@ -1,5 +1,5 @@
 export default function Hero() {
-    return <section className="hero-bg min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 relative">
+    return <section className="hero-bg w-full min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 relative overflow-x-clip">
             <div className="radial-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"></div>
 
             <div className="text-center max-w-4xl mx-auto relative z-10">
@@ -32,24 +32,21 @@ export default function Hero() {
 
             <div className="fade-up delay-4 flex flex-wrap justify-center gap-8">
                 <div className="text-center">
-                    <div className="stat-number">8</div>
-                    <div className="font-heading text-xs tracking-widest mt-1 stat-title">FACTIONS PORTED</div>
+                    <div className="stat-number">Over 30</div>
+                    <div className="font-heading text-xs tracking-widest mt-1 stat-title">BIOMES WITH STRUCTURES</div>
                 </div>
-                <div className="stat-spacer"></div>
                 <div className="text-center">
-                    <div className="stat-number">5</div>
-                    <div className="font-heading text-xs tracking-widest mt-1 stat-title">WANDERING TRADERS</div>
+                    <div className="stat-number">35</div>
+                    <div className="font-heading text-xs tracking-widest mt-1 stat-title">TRADERS ADDED OR PORTED</div>
                 </div>
-                <div className="stat-spacer"></div>
                 <div className="text-center">
-                    <div className="stat-number">4</div>
-                    <div className="font-heading text-xs tracking-widest mt-1 stat-title">NEW TREES</div>
+                    <div className="stat-number">Over 400</div>
+                    <div className="font-heading text-xs tracking-widest mt-1 stat-title">ADVANCMENTS</div>
                 </div>
-                    <div className="stat-spacer"></div>
-                    <div className="text-center">
-                        <div className="stat-number">∞</div>
-                        <div className="font-heading text-xs tracking-widest mt-1 stat-title">ADVENTURE</div>
-                    </div>
+                <div className="text-center">
+                    <div className="stat-number">27</div>
+                    <div className="font-heading text-xs tracking-widest mt-1 stat-title">HIRABLE UNITS</div>
+                </div>
             </div>
 
             <div className="scroll-down scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 opacity-40 text-sm">

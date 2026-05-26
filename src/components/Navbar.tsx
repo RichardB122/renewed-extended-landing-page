@@ -45,6 +45,14 @@ export default function Navbar() {
                     >
                         Download
                     </a>
+
+                    <a
+                        href="https://wiki.lotrextended.net"
+                        className="text-parchment hover:text-gold-lt transition-colors duration-200"
+                        target="_blank"
+                    >
+                        Wiki
+                    </a>
                 </div>
 
                 {/* Download button */}
