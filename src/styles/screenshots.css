@@ -1,0 +1,42 @@
+/* ── Screenshot placeholder ── */
+.screenshot-slot {
+    background:
+            linear-gradient(135deg, rgba(201,184,130,.07) 0%, rgba(74,92,48,.12) 100%);
+    border: 2px dashed rgba(201,184,130,.25);
+    position: relative;
+    overflow: hidden;
+    height: 160px;
+}
+.screenshot-slot::after {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: .75rem;
+    letter-spacing: .15em;
+    color: rgba(201,184,130,.35);
+    text-transform: uppercase;
+}
+
+.screenshot-main {
+    background: linear-gradient(135deg, rgba(201,184,130,.07) 0%, rgba(74,92,48,.14) 100%);
+    border: 2px dashed rgba(201,184,130,.22);
+    position: relative; overflow: hidden;
+    height: 420px;
+}
+.screenshot-main::after {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: .85rem;
+    letter-spacing: .2em;
+    color: rgba(201,184,130,.3);
+    text-transform: uppercase;
+}
+
+.sceenshots-info {
+    color:rgba(201,184,130,.35)
+}
+
+.font-gallery {
+    color: var(--color-parchment-lt)
+}
