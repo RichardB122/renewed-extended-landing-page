@@ -1,17 +1,32 @@
 import '../styles/screenshots.css';
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/captions.css";
+import Lightbox from "yet-another-react-lightbox";
+import Captions from "yet-another-react-lightbox/plugins/captions";
+import React from "react";
 
 export default function Screenshots() {
 
-    const featuredScreenshot = {
-        src: "/screenshots/rivendell.png",
-        alt: "A Rivendell house spawning in the Valley"
-    };
+    const [open, setOpen] = React.useState(false);
+    const [index, setIndex] = React.useState(0);
 
-    const screenshots = [
-        { src: "/screenshots/barrows.png",   alt: "A naturally spawning barrow in the Barrowdowns" },
-        { src: "/screenshots/bree.png",      alt: "A village spawning in Bree-land" },
-        { src: "/screenshots/orthanc.png",   alt: "The Orthanc (one of a limited number of lore builds) at night" },
+    const slides = [
+        { src: "/screenshots/rivendell.png",
+          description: "A Rivendell house spawning in the Valley" },
+        { src: "/screenshots/barrows.png",
+          description: "A naturally spawning barrow in the Barrowdowns" },
+        { src: "/screenshots/bree.png",
+          description: "A village spawning in Bree-land" },
+        { src: "/screenshots/orthanc.png",
+          description: "The Orthanc (one of a limited number of lore builds) at night" },
+        { src: "/screenshots/warg.png",
+          description: "A warg rider at night" },
     ];
+
+    function openSlide(index: React.SetStateAction<number>) {
+        setOpen(true);
+        setIndex(index);
+    }
 
     return <section className="py-20 px-6 max-w-7xl mx-auto" id="gallery">
         <div className="text-center mb-10">
@@ -20,22 +35,23 @@ export default function Screenshots() {
             <hr className="gold-rule max-w-sm mx-auto"/>
         </div>
 
-        <div className="screenshot-main rounded-sm mb-4">
+        <div className="screenshot-main rounded-sm mb-4"
+             onClick={() => openSlide(0)}>
             <img
-                key={featuredScreenshot.src}
-                src={featuredScreenshot.src}
-                alt={featuredScreenshot.alt}
-                className="rounded-sm w-full h-40 object-cover"
+                key={slides[0].src}
+                src={slides[0].src}
+                alt={slides[0].description}
+                className="rounded-sm w-full object-cover"
             />
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {screenshots.map((shot) => (
-                <div className="screenshot-slot rounded-sm">
+            {slides.slice(1).map((shot, index) => (
+                <div className="screenshot-slot rounded-sm"
+                     onClick={() => openSlide(index + 1)}>
                     <img
-                        key={shot.src}
                         src={shot.src}
-                        alt={shot.alt}
+                        alt={shot.description}
                         className="rounded-sm w-full h-40 object-cover"
                     />
                 </div>
@@ -45,7 +61,15 @@ export default function Screenshots() {
         <p className="text-center mt-4 font-heading text-xs tracking-widest screenshots-info">
             All Screenshots captured from naturally spawning builds - Some use&nbsp;
             <a href="https://www.curseforge.com/minecraft/shaders/complementary-unbound/files/all?page=1&pageSize=20&version=1.16.5&showAlphaFiles=hide"
-            target="_blank">Complementary - Unbound</a> Shaders.</p>
+            target="_blank">"Complementary - Unbound"</a> Shaders.</p>
+
+    <Lightbox
+        plugins={[Captions]}
+        slides={slides}
+        open={open}
+        index={index}
+        close={() => setOpen(false)}
+    />
     </section>;
 
 }

@@ -21,7 +21,7 @@
     background: linear-gradient(135deg, rgba(201,184,130,.07) 0%, rgba(74,92,48,.14) 100%);
     border: 2px dashed rgba(201,184,130,.22);
     position: relative; overflow: hidden;
-    height: 420px;
+    max-height: 600px;
 }
 .screenshot-main::after {
     position: absolute; inset: 0;
