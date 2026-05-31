@@ -11,15 +11,15 @@ export default function Screenshots() {
     const [index, setIndex] = React.useState(0);
 
     const slides = [
-        { src: "/screenshots/rivendell.png",
+        { src: "/screenshots/rivendell.jpg",
           description: "A Rivendell house spawning in the Valley" },
         { src: "/screenshots/barrows.png",
           description: "A naturally spawning barrow in the Barrowdowns" },
         { src: "/screenshots/bree.png",
           description: "A village spawning in Bree-land" },
-        { src: "/screenshots/orthanc.png",
+        { src: "/screenshots/orthanc.jpg",
           description: "The Orthanc (one of a limited number of lore builds) at night" },
-        { src: "/screenshots/warg.png",
+        { src: "/screenshots/warg.jpg",
           description: "A warg rider at night" },
     ];
 
