@@ -1,0 +1,28 @@
+#download {
+    background: linear-gradient(160deg, #1a1810 0%, #22210e 60%, #1a1810 100%);
+}
+
+.glow-backdrop {
+    background: radial-gradient(ellipse, rgba(201,146,42,.1) 0%, transparent 65%);
+}
+
+.download-header {
+    color:var(--color-parchment-lt)
+}
+
+.version {
+    color:var(--color-gold-lt)
+}
+
+.published {
+    color:rgba(201,184,130,.5)
+}
+
+.published-subheader {
+    color:rgba(232,217,176,.65);
+    font-style:italic;
+}
+
+#download .text-xs {
+    color:rgba(201,184,130,.35)
+}

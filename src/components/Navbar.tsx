@@ -25,12 +25,12 @@ export default function Navbar() {
                         Features
                     </a>
 
-                    <a
+                    {/*<a
                         href="#factions"
                         className="text-parchment hover:text-gold-lt transition-colors duration-200"
                     >
                         Factions
-                    </a>
+                    </a>*/}
 
                     <a
                         href="#gallery"
