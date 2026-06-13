@@ -21,8 +21,9 @@ export default function Hero() {
             <hr className="gold-rule fade-up delay-2 mb-6 max-w-xs mx-auto" />
 
             <p className="fade-up delay-2 mb-10 text-lg leading-relaxed max-w-2xl mx-auto mod-desc">
-            A community-crafted expansion to Mevans' Lord of the Rings Renewed mod —
-            bringing new factions, structures, traders, and lore to Middle-earth.
+                {/*A community-crafted expansion to Mevans' Lord of the Rings Renewed mod —
+            bringing new factions, structures, traders, and lore to Middle-earth.*/}
+                A community-developed expansion for the Lord of the Rings Renewed Minecraft mod for Forge 1.16.5, adding new factions, structures, traders, NPCs, and adventures across Middle-earth.
             </p>
 
             <div className="fade-up delay-3 flex flex-wrap items-center justify-center gap-4 mb-12">
